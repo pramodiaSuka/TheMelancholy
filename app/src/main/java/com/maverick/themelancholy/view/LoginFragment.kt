@@ -39,7 +39,6 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             var reg_username = binding.txtUsername.text.toString()
             var reg_password = binding.txtPassword.text.toString()
-            //Toast.makeText(requireContext(), reg_password, Toast.LENGTH_SHORT).show()
             viewModel.login(reg_username, reg_password)
         }
 

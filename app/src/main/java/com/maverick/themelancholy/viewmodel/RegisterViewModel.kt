@@ -19,7 +19,7 @@ class RegisterViewModel(application: Application): AndroidViewModel(application)
     private var queue: RequestQueue? = null
 
     fun register(p_username:String, p_email:String, p_password:String, p_first_name:String, p_last_name:String, p_image_url:String){
-        regStatusLD.value = false
+        //regStatusLD.value = false
         var newUser = User(username = p_username, email = p_email, password = p_password, first_name = p_first_name, last_name = p_last_name, image_url = p_image_url)
         queue = Volley.newRequestQueue(getApplication())
         val url = "http://10.0.2.2/WebProjects/Hobby/insertUser.php"
