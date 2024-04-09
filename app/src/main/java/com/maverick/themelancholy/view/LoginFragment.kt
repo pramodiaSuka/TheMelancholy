@@ -52,7 +52,9 @@ class LoginFragment : Fragment() {
         })
         viewModel.logStatusLD.observe(viewLifecycleOwner, Observer {
             if (it == true){
-                Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT).show()
+                val action = LoginFragmentDirections.actionItemHome(currentUser.username.toString())
+                Navigation.findNavController(requireView()).navigate(action)
             } else {
                 Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
             }

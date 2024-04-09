@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/ItemHome">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -13,6 +13,9 @@
         <action
             android:id="@+id/actionRegisterFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/actionItemHome"
+            app:destination="@id/ItemHome" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -27,7 +30,11 @@
         android:id="@+id/ItemHome"
         android:name="com.maverick.themelancholy.view.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <argument
+            android:name="current_username"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/ItemHistory"
         android:name="com.maverick.themelancholy.view.HistoryFragment"

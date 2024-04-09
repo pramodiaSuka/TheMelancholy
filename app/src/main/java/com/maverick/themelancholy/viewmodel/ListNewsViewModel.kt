@@ -39,7 +39,6 @@ class ListNewsViewModel(application: Application): AndroidViewModel(application)
 //                    val result = Gson().fromJson<List<News>>(data.toString(), sType) as ArrayList<News>
 //                    newsListLD.value = result[0]
                     loadingLD.value = false
-
                     Log.d("showNews", result.toString())
                 }
 
