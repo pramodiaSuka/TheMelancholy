@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maverick.themelancholy.R
 import com.maverick.themelancholy.databinding.FragmentHomeBinding
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
             currentUsername = HomeFragmentArgs.fromBundle(requireArguments()).currentUsername
             Toast.makeText(requireContext(), currentUsername, Toast.LENGTH_SHORT).show()
         }
+
         viewModel = ViewModelProvider(this).get(ListNewsViewModel::class.java)
         viewModel.refresh()
 
@@ -50,6 +52,8 @@ class HomeFragment : Fragment() {
         }
 
     }
+
+
 
     fun observeListNewsViewModel(){
         viewModel.newsListLD.observe(viewLifecycleOwner, Observer {

@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.maverick.themelancholy.databinding.NewsListItemBinding
 import com.maverick.themelancholy.model.News
@@ -41,6 +42,16 @@ class NewsAdapter(val newsList:ArrayList<News>):RecyclerView.Adapter<NewsAdapter
         holder.binding.txtTitle.text = newsList[position].title
         holder.binding.txtAuthor.text = newsList[position].users_username
         holder.binding.txtDescription.text = newsList[position].description
+        holder.binding.btnRead.setOnClickListener {
+            val action = newsList[position].id?.let { it1 ->
+                HomeFragmentDirections.actionDetailFragment(
+                    it1
+                )
+            }
+            if (action != null) {
+                Navigation.findNavController(it).navigate(action)
+            }
+        }
     }
 
     fun updateNewsList(newNewsList: ArrayList<News>){

@@ -1,0 +1,125 @@
+package com.maverick.themelancholy.view
+
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.maverick.themelancholy.R
+import com.maverick.themelancholy.databinding.FragmentDetailBinding
+import com.maverick.themelancholy.model.News
+import com.maverick.themelancholy.viewmodel.DetailNewsViewModel
+import com.maverick.themelancholy.viewmodel.ListNewsViewModel
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import java.lang.Exception
+
+class DetailFragment : Fragment() {
+    private lateinit var binding:FragmentDetailBinding
+    private lateinit var viewModel:DetailNewsViewModel
+    private var newsId = 0
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (arguments != null){
+            newsId = DetailFragmentArgs.fromBundle(requireArguments()).newsId
+        }
+
+        viewModel = ViewModelProvider(this).get(DetailNewsViewModel::class.java)
+        viewModel.fetch(newsId)
+        observeDetailNewsViewModel()
+    }
+
+    fun indexCheck(index:Int, arraySize:Int){
+        if (index == 0){
+            binding.btnPreviousDetail.isEnabled = false
+            binding.btnNextDetail.isEnabled = true
+        }
+        else if (index == (arraySize - 1)) {
+            binding.btnNextDetail.isEnabled = false
+            binding.btnPreviousDetail.isEnabled = true
+        }
+        else {
+            binding.btnPreviousDetail.isEnabled = true
+            binding.btnNextDetail.isEnabled = true
+        }
+    }
+
+    fun observeDetailNewsViewModel(){
+        viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
+            var currentNews = it
+            
+            binding.txtTitleDetail.text = currentNews.title
+            binding.txtAuthorDetail.text = currentNews.users_username
+
+            var pagesCount = currentNews.page?.size
+            var currentPage = 0
+
+            binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
+
+            val picasso = Picasso.Builder(requireContext())
+            picasso.listener { picasso, uri, exception ->
+                exception.printStackTrace()
+            }
+            picasso.build().load(currentNews.image_url).into(binding.detailNewsImage, object:
+                Callback {
+                override fun onSuccess() {
+                    binding.detailNewsImage.visibility = View.VISIBLE
+                }
+
+                override fun onError(e: Exception?) {
+                    Log.e("picasso error", e.toString())
+                }
+            })
+
+            binding.btnPreviousDetail.isEnabled = false
+            binding.btnNextDetail.isEnabled = true
+
+
+
+            binding.btnNextDetail.setOnClickListener {
+                currentPage += 1
+                Toast.makeText(requireContext(), currentPage.toString(), Toast.LENGTH_SHORT).show()
+                binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
+                indexCheck(currentPage, pagesCount!!)
+            }
+            binding.btnPreviousDetail.setOnClickListener {
+                currentPage -= 1
+                Toast.makeText(requireContext(), currentPage.toString(), Toast.LENGTH_SHORT).show()
+                binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
+                indexCheck(currentPage, pagesCount!!)
+            }
+        })
+
+//        viewModel.newsListLoadErrorLD.observe(viewLifecycleOwner, Observer {
+//            if (it == true) {
+//                binding.txtError?.visibility = View.VISIBLE
+//            } else {
+//                binding.txtError?.visibility = View.GONE
+//            }
+//        })
+//
+//        viewModel.loadingLD.observe(viewLifecycleOwner, Observer {
+//            if (it == true) {
+//                binding.recView.visibility = View.GONE
+//                binding.progressLoad.visibility = View.VISIBLE
+//            } else {
+//                binding.recView.visibility = View.VISIBLE
+//                binding.progressLoad.visibility = View.GONE
+//            }
+//        })
+    }
+}

@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.maverick.themelancholy.view.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/actionRegisterFragment"
             app:destination="@id/registerFragment" />
@@ -20,8 +20,8 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.maverick.themelancholy.view.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/actionLoginFragment"
             app:destination="@id/loginFragment" />
@@ -29,20 +29,32 @@
     <fragment
         android:id="@+id/ItemHome"
         android:name="com.maverick.themelancholy.view.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
         <argument
             android:name="current_username"
             app:argType="string" />
+        <action
+            android:id="@+id/actionDetailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/ItemHistory"
         android:name="com.maverick.themelancholy.view.HistoryFragment"
-        android:label="fragment_history"
+        android:label="History"
         tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/ItemProfile"
         android:name="com.maverick.themelancholy.view.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.maverick.themelancholy.view.DetailFragment"
+        android:label="News Detail"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="news_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
