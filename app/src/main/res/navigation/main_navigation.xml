@@ -31,9 +31,6 @@
         android:name="com.maverick.themelancholy.view.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
-        <argument
-            android:name="current_username"
-            app:argType="string" />
         <action
             android:id="@+id/actionDetailFragment"
             app:destination="@id/detailFragment" />
@@ -42,7 +39,11 @@
         android:id="@+id/ItemHistory"
         android:name="com.maverick.themelancholy.view.HistoryFragment"
         android:label="History"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/actionDetailFragmentFromHistory"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ItemProfile"
         android:name="com.maverick.themelancholy.view.ProfileFragment"

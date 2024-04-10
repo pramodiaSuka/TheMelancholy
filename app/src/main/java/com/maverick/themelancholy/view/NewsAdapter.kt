@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.maverick.themelancholy.databinding.NewsListItemBinding
@@ -12,7 +13,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-class NewsAdapter(val newsList:ArrayList<News>):RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(val newsList:ArrayList<News>, val fragment: Fragment):RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     class NewsViewHolder(var binding:NewsListItemBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -43,13 +44,25 @@ class NewsAdapter(val newsList:ArrayList<News>):RecyclerView.Adapter<NewsAdapter
         holder.binding.txtAuthor.text = newsList[position].users_username
         holder.binding.txtDescription.text = newsList[position].description
         holder.binding.btnRead.setOnClickListener {
-            val action = newsList[position].id?.let { it1 ->
-                HomeFragmentDirections.actionDetailFragment(
-                    it1
-                )
+            if (fragment is HomeFragment){
+                val action = newsList[position].id?.let { it1 ->
+                    HomeFragmentDirections.actionDetailFragment(
+                        it1
+                    )
+                }
+                if (action != null) {
+                    Navigation.findNavController(it).navigate(action)
+                }
             }
-            if (action != null) {
-                Navigation.findNavController(it).navigate(action)
+            else if (fragment is HistoryFragment){
+                val action = newsList[position].id?.let { it1 ->
+                    HistoryFragmentDirections.actionDetailFragmentFromHistory(
+                        it1
+                    )
+                }
+                if (action != null) {
+                    Navigation.findNavController(it).navigate(action)
+                }
             }
         }
     }

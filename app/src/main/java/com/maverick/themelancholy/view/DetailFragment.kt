@@ -14,6 +14,7 @@ import com.maverick.themelancholy.databinding.FragmentDetailBinding
 import com.maverick.themelancholy.model.News
 import com.maverick.themelancholy.viewmodel.DetailNewsViewModel
 import com.maverick.themelancholy.viewmodel.ListNewsViewModel
+import com.maverick.themelancholy.viewmodel.SharedViewModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
@@ -21,6 +22,7 @@ import java.lang.Exception
 class DetailFragment : Fragment() {
     private lateinit var binding:FragmentDetailBinding
     private lateinit var viewModel:DetailNewsViewModel
+    private lateinit var sharedViewModel:SharedViewModel
     private var newsId = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +39,13 @@ class DetailFragment : Fragment() {
         if (arguments != null){
             newsId = DetailFragmentArgs.fromBundle(requireArguments()).newsId
         }
-
         viewModel = ViewModelProvider(this).get(DetailNewsViewModel::class.java)
-        viewModel.fetch(newsId)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer { currentUsernameLD ->
+            viewModel.fetch(newsId, currentUsernameLD)
+
+        })
+
         observeDetailNewsViewModel()
     }
 
@@ -57,7 +63,6 @@ class DetailFragment : Fragment() {
             binding.btnNextDetail.isEnabled = true
         }
     }
-
     fun observeDetailNewsViewModel(){
         viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
             var currentNews = it

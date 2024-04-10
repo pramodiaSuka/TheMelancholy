@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.maverick.themelancholy.R
 import com.maverick.themelancholy.databinding.FragmentHomeBinding
 import com.maverick.themelancholy.viewmodel.ListNewsViewModel
+import com.maverick.themelancholy.viewmodel.SharedViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding:FragmentHomeBinding
     private lateinit var viewModel:ListNewsViewModel
-    private val newsAdapter = NewsAdapter(arrayListOf())
-    private var currentUsername = ""
+    private lateinit var sharedViewModel:SharedViewModel
+    private val newsAdapter = NewsAdapter(arrayListOf(), this)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,13 +31,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments != null){
-            currentUsername = HomeFragmentArgs.fromBundle(requireArguments()).currentUsername
-            Toast.makeText(requireContext(), currentUsername, Toast.LENGTH_SHORT).show()
-        }
+//        if (arguments != null){
+//            currentUsername = HomeFragmentArgs.fromBundle(requireArguments()).currentUsername
+//
+//            //Toast.makeText(requireContext(), currentUsername, Toast.LENGTH_SHORT).show()
+//        }
 
         viewModel = ViewModelProvider(this).get(ListNewsViewModel::class.java)
         viewModel.refresh()
+        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
         binding.recView.layoutManager = LinearLayoutManager(context)
         binding.recView.adapter = newsAdapter
@@ -77,5 +80,9 @@ class HomeFragment : Fragment() {
                 binding.progressLoad.visibility = View.GONE
             }
         })
+
+//        sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer {
+//            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+//        })
     }
 }

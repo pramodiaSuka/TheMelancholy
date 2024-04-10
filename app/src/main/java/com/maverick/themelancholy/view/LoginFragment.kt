@@ -14,11 +14,13 @@ import com.maverick.themelancholy.databinding.FragmentLoginBinding
 import com.maverick.themelancholy.model.User
 import com.maverick.themelancholy.viewmodel.LoginViewModel
 import com.maverick.themelancholy.viewmodel.RegisterViewModel
+import com.maverick.themelancholy.viewmodel.SharedViewModel
 
 class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding:FragmentLoginBinding
-    private var currentUser:User = User()
+    private lateinit var sharedViewModel:SharedViewModel
+    //private var currentUser:User = User()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +38,7 @@ class LoginFragment : Fragment() {
         }
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         binding.btnLogin.setOnClickListener {
             var reg_username = binding.txtUsername.text.toString()
             var reg_password = binding.txtPassword.text.toString()
@@ -48,16 +51,28 @@ class LoginFragment : Fragment() {
 
     fun observeLoginViewModel(){
         viewModel.currentUser.observe(viewLifecycleOwner, Observer {
-            currentUser = it
+            //currentUser = it
+            sharedViewModel.setCurrentUsername(it.username!!)
+            observeSharedViewModel()
         })
         viewModel.logStatusLD.observe(viewLifecycleOwner, Observer {
             if (it == true){
+//                sharedViewModel.setCurrentUsername(currentUser.username!!)
 //                Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT).show()
-                val action = LoginFragmentDirections.actionItemHome(currentUser.username.toString())
-                Navigation.findNavController(requireView()).navigate(action)
+//                val action = LoginFragmentDirections.actionItemHome(currentUser.username.toString())
+//                Navigation.findNavController(requireView()).navigate(action)
             } else {
                 Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
             }
+        })
+
+    }
+
+    fun observeSharedViewModel(){
+        sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            val action = LoginFragmentDirections.actionItemHome()
+            Navigation.findNavController(requireView()).navigate(action)
         })
     }
 

@@ -14,18 +14,18 @@ import com.google.gson.reflect.TypeToken
 import com.maverick.themelancholy.model.News
 import org.json.JSONObject
 
-class DetailNewsViewModel(application: Application):AndroidViewModel(application) {
-    val newsDetailLD = MutableLiveData<News>()
-    val newsDetailLoadErrorLD = MutableLiveData<Boolean>()
+class ListHistoryViewModel(application: Application):AndroidViewModel(application) {
+    val newsHistoryLD = MutableLiveData<ArrayList<News>>()
+    val newsHistoryLoadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
 
-    fun fetch(id:Int, username:String){
-        newsDetailLoadErrorLD.value = false
+    fun refresh(username:String){
+        newsHistoryLoadErrorLD.value = false
         loadingLD.value = true
         queue = Volley.newRequestQueue((getApplication()))
-        val url = "http://10.0.2.2/WebProjects/Hobby/getNewsById.php"
+        val url = "http://10.0.2.2/WebProjects/Hobby/getNewsHistories.php"
         val stringRequest = object : StringRequest(
             Request.Method.POST, url,
             Response.Listener
@@ -35,22 +35,22 @@ class DetailNewsViewModel(application: Application):AndroidViewModel(application
                     val data = obj.getJSONArray("data")
                     val sType = object : TypeToken<List<News>>(){ }.type
                     val result = Gson().fromJson<List<News>>(data.toString(), sType) as ArrayList<News>
-                    newsDetailLD.value = result[0]
+                    newsHistoryLD.value = result
                     loadingLD.value = false
-                    Log.d("showNews", result[0].toString())
+                    Log.d("showNews", result.toString())
                 }
 
             },
-            Response.ErrorListener{
+            Response.ErrorListener
+            {
                 Log.d("showNews", it.toString())
-                newsDetailLoadErrorLD.value = true
+                newsHistoryLoadErrorLD.value = true
                 loadingLD.value = false
             }
         )
         {
             override fun getParams(): MutableMap<String, String>? {
                 val params = HashMap<String, String>()
-                params["id"] = id.toString()
                 params["username"] = username
                 return params
             }
