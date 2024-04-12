@@ -48,7 +48,11 @@
         android:id="@+id/ItemProfile"
         android:name="com.maverick.themelancholy.view.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/actionLoginFragmentFromProfile"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.maverick.themelancholy.view.DetailFragment"
