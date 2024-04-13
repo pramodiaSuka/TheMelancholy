@@ -20,7 +20,6 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding:FragmentLoginBinding
     private lateinit var sharedViewModel:SharedViewModel
-    //private var currentUser:User = User()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,28 +50,15 @@ class LoginFragment : Fragment() {
 
     fun observeLoginViewModel(){
         viewModel.currentUser.observe(viewLifecycleOwner, Observer {
-            //currentUser = it
-            sharedViewModel.setCurrentUsername(it.username!!)
-            observeSharedViewModel()
-        })
-        viewModel.logStatusLD.observe(viewLifecycleOwner, Observer {
-            if (it == true){
-//                sharedViewModel.setCurrentUsername(currentUser.username!!)
-//                Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT).show()
-//                val action = LoginFragmentDirections.actionItemHome(currentUser.username.toString())
-//                Navigation.findNavController(requireView()).navigate(action)
-            } else {
-                Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
+            if (it != null) {
+                sharedViewModel.setCurrentUsername(it.username!!)
+                val action = LoginFragmentDirections.actionItemHome()
+                Navigation.findNavController(requireView()).navigate(action)
             }
-        })
+            else if (it == null) {
+                Toast.makeText(requireContext(), "Username or Password is wrong!", Toast.LENGTH_SHORT).show()
+            }
 
-    }
-
-    fun observeSharedViewModel(){
-        sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            val action = LoginFragmentDirections.actionItemHome()
-            Navigation.findNavController(requireView()).navigate(action)
         })
     }
 

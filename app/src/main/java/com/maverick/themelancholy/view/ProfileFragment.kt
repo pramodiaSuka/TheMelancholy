@@ -25,7 +25,6 @@ class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var viewModel: ProfileViewModel
-    //private lateinit var
     var currentUser:User = User()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

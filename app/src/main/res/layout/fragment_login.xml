@@ -87,8 +87,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:text="Login"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Log In"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/InputLayoutPassword" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/logoImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/melancholylogo"
+            app:layout_constraintBottom_toTopOf="@+id/InputLayoutUsername"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            app:strokeColor="@color/md_theme_light_primary"
+            app:strokeWidth="1dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -31,11 +31,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        if (arguments != null){
-//            currentUsername = HomeFragmentArgs.fromBundle(requireArguments()).currentUsername
-//
-//            //Toast.makeText(requireContext(), currentUsername, Toast.LENGTH_SHORT).show()
-//        }
 
         viewModel = ViewModelProvider(this).get(ListNewsViewModel::class.java)
         viewModel.refresh()
@@ -80,9 +75,5 @@ class HomeFragment : Fragment() {
                 binding.progressLoad.visibility = View.GONE
             }
         })
-
-//        sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer {
-//            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-//        })
     }
 }

@@ -97,34 +97,14 @@ class DetailFragment : Fragment() {
 
             binding.btnNextDetail.setOnClickListener {
                 currentPage += 1
-                Toast.makeText(requireContext(), currentPage.toString(), Toast.LENGTH_SHORT).show()
                 binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
                 indexCheck(currentPage, pagesCount!!)
             }
             binding.btnPreviousDetail.setOnClickListener {
                 currentPage -= 1
-                Toast.makeText(requireContext(), currentPage.toString(), Toast.LENGTH_SHORT).show()
                 binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
                 indexCheck(currentPage, pagesCount!!)
             }
         })
-
-//        viewModel.newsListLoadErrorLD.observe(viewLifecycleOwner, Observer {
-//            if (it == true) {
-//                binding.txtError?.visibility = View.VISIBLE
-//            } else {
-//                binding.txtError?.visibility = View.GONE
-//            }
-//        })
-//
-//        viewModel.loadingLD.observe(viewLifecycleOwner, Observer {
-//            if (it == true) {
-//                binding.recView.visibility = View.GONE
-//                binding.progressLoad.visibility = View.VISIBLE
-//            } else {
-//                binding.recView.visibility = View.VISIBLE
-//                binding.progressLoad.visibility = View.GONE
-//            }
-//        })
     }
 }

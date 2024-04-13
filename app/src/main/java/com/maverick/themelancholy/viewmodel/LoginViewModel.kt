@@ -15,13 +15,11 @@ import com.maverick.themelancholy.model.User
 import org.json.JSONObject
 
 class LoginViewModel(application: Application): AndroidViewModel(application) {
-    val logStatusLD = MutableLiveData<Boolean>()
-    val currentUser = MutableLiveData<User>()
+    val currentUser = MutableLiveData<User?>()
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
 
     fun login(p_username:String, p_password:String){
-//        logStatusLD.value = false
         queue = Volley.newRequestQueue(getApplication())
         val url = "http://10.0.2.2/WebProjects/Hobby/loginUser.php"
         val stringRequest = object : StringRequest(
@@ -36,15 +34,15 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
                     val result = Gson().fromJson(data.toString(), sType) as ArrayList<User>
 
                     currentUser.value = result[0]
-                    logStatusLD.value = true
 
                     Log.d("apiresult", result[0].toString())
-
+                }
+                else{
+                    currentUser.value = null
                 }
             },
             Response.ErrorListener {
                 Log.d("apiresult", it.message.toString())
-                logStatusLD.value = false
             }
         )
         {
