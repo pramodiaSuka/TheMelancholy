@@ -46,7 +46,7 @@ class DetailFragment : Fragment() {
 
         })
 
-        observeDetailNewsViewModel()
+        //observeDetailNewsViewModel()
     }
 
     fun indexCheck(index:Int, arraySize:Int){
@@ -63,48 +63,48 @@ class DetailFragment : Fragment() {
             binding.btnNextDetail.isEnabled = true
         }
     }
-    fun observeDetailNewsViewModel(){
-        viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
-            var currentNews = it
-            
-            binding.txtTitleDetail.text = currentNews.title
-            binding.txtAuthorDetail.text = currentNews.users_username
-
-            var pagesCount = currentNews.page?.size
-            var currentPage = 0
-
-            binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
-
-            val picasso = Picasso.Builder(requireContext())
-            picasso.listener { picasso, uri, exception ->
-                exception.printStackTrace()
-            }
-            picasso.build().load(currentNews.image_url).into(binding.detailNewsImage, object:
-                Callback {
-                override fun onSuccess() {
-                    binding.detailNewsImage.visibility = View.VISIBLE
-                }
-
-                override fun onError(e: Exception?) {
-                    Log.e("picasso error", e.toString())
-                }
-            })
-
-            binding.btnPreviousDetail.isEnabled = false
-            binding.btnNextDetail.isEnabled = true
-
-
-
-            binding.btnNextDetail.setOnClickListener {
-                currentPage += 1
-                binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
-                indexCheck(currentPage, pagesCount!!)
-            }
-            binding.btnPreviousDetail.setOnClickListener {
-                currentPage -= 1
-                binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
-                indexCheck(currentPage, pagesCount!!)
-            }
-        })
-    }
+//    fun observeDetailNewsViewModel(){
+//        viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
+//            var currentNews = it
+//
+//            binding.txtTitleDetail.text = currentNews.title
+//            binding.txtAuthorDetail.text = currentNews.users_username
+//
+//            var pagesCount = currentNews.page?.size
+//            var currentPage = 0
+//
+//            binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
+//
+//            val picasso = Picasso.Builder(requireContext())
+//            picasso.listener { picasso, uri, exception ->
+//                exception.printStackTrace()
+//            }
+//            picasso.build().load(currentNews.image_url).into(binding.detailNewsImage, object:
+//                Callback {
+//                override fun onSuccess() {
+//                    binding.detailNewsImage.visibility = View.VISIBLE
+//                }
+//
+//                override fun onError(e: Exception?) {
+//                    Log.e("picasso error", e.toString())
+//                }
+//            })
+//
+//            binding.btnPreviousDetail.isEnabled = false
+//            binding.btnNextDetail.isEnabled = true
+//
+//
+//
+//            binding.btnNextDetail.setOnClickListener {
+//                currentPage += 1
+//                binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
+//                indexCheck(currentPage, pagesCount!!)
+//            }
+//            binding.btnPreviousDetail.setOnClickListener {
+//                currentPage -= 1
+//                binding.txtContentDetail.text = currentNews.page?.get(currentPage)?.content.toString()
+//                indexCheck(currentPage, pagesCount!!)
+//            }
+//        })
+//    }
 }
