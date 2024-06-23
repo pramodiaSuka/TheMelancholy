@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey
 //id, content, news_id
 @Entity
 data class Page(
-    @PrimaryKey(autoGenerate = true) val id:Int = 0,
-    val news_id:Int,
+    var news_id:Int,
     val content:String?
 )
+{
+    @PrimaryKey(autoGenerate = true) var id:Int = 0
+}

@@ -7,10 +7,12 @@ import androidx.room.PrimaryKey
 //id, title, description, image_url, created_at, users_username
 @Entity
 data class News(
-    @PrimaryKey(autoGenerate = true) val id:Int = 0,
     val title:String?,
     val description:String?,
     val image_url:String?,
     val created_at:String?,
     val users_username:String?)
+{
+    @PrimaryKey(autoGenerate = true) var id:Int = 0
+}
 //    val page:List<Page>?)

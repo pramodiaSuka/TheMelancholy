@@ -34,6 +34,9 @@
         <action
             android:id="@+id/actionDetailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/actionCreateNewsFragment"
+            app:destination="@id/createNewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/ItemHistory"
@@ -62,4 +65,9 @@
             android:name="news_id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/createNewsFragment"
+        android:name="com.maverick.themelancholy.view.CreateNewsFragment"
+        android:label="Create News"
+        tools:layout="@layout/fragment_create_news" />
 </navigation>

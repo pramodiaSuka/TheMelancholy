@@ -42,7 +42,7 @@ class DetailFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(DetailNewsViewModel::class.java)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer { currentUsernameLD ->
-            viewModel.fetch(newsId, currentUsernameLD)
+            //viewModel.fetch(newsId, currentUsernameLD)
 
         })
 

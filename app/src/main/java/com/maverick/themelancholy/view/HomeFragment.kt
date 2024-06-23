@@ -49,6 +49,11 @@ class HomeFragment : Fragment() {
             binding.refreshLayout.isRefreshing = false
         }
 
+        binding.btnFab.setOnClickListener{
+            val action = HomeFragmentDirections.actionCreateNewsFragment()
+            Navigation.findNavController(requireView()).navigate(action)
+        }
+
     }
 
 

@@ -52,9 +52,9 @@ class LoginFragment : Fragment() {
         viewModel.currentUser.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 sharedViewModel.setCurrentUsername(it.username!!)
-                Toast.makeText(requireContext(), "Login Success!", Toast.LENGTH_SHORT).show()
-//                val action = LoginFragmentDirections.actionItemHome()
-//                Navigation.findNavController(requireView()).navigate(action)
+                //Toast.makeText(requireContext(), "Login Success!", Toast.LENGTH_SHORT).show()
+                val action = LoginFragmentDirections.actionItemHome()
+                Navigation.findNavController(requireView()).navigate(action)
             }
             else if (it == null) {
                 Toast.makeText(requireContext(), "Username or Password is wrong!", Toast.LENGTH_SHORT).show()

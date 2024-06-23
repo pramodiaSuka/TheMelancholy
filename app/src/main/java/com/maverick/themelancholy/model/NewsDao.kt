@@ -11,7 +11,17 @@ import androidx.room.Update
 @Dao
 interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun InsertNews(vararg news: News)
+    fun InsertNews(news: News): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun InsertPage(vararg page: Page)
+
+    @Transaction
+    fun InsertNewsWithPage(news: News, pages: ArrayList<Page>){
+        val newsId = InsertNews(news)
+        pages.forEach { it.news_id = newsId.toInt() }
+        InsertPage(*pages.toTypedArray())
+    }
 
     @Query("SELECT * FROM news")
     fun GetAllNews(): List<News>

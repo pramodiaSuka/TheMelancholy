@@ -9,8 +9,7 @@ import androidx.room.Update
 
 @Dao
 interface PageDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun InsertPage(vararg page: Page)
+
 
     @Query("SELECT * FROM page")
     fun GetAllPage(): List<Page>
