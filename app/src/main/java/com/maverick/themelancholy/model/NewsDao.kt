@@ -23,12 +23,12 @@ interface NewsDao {
         InsertPage(*pages.toTypedArray())
     }
 
-    @Query("SELECT * FROM news")
+    @Query("SELECT * FROM news ORDER BY created_at DESC")
     fun GetAllNews(): List<News>
 
     @Transaction
     @Query("SELECT * FROM news WHERE id=:newsId")
-    fun GetNewsWithId(newsId: Int): List<NewsWithPages>
+    fun GetNewsWithId(newsId: Int): NewsWithPages
 
     @Update
     fun UpdateNews(news: News)

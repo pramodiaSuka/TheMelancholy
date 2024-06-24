@@ -42,11 +42,11 @@ class DetailFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(DetailNewsViewModel::class.java)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer { currentUsernameLD ->
-            //viewModel.fetch(newsId, currentUsernameLD)
+            viewModel.fetch(newsId, currentUsernameLD)
 
         })
 
-        //observeDetailNewsViewModel()
+        observeDetailNewsViewModel()
     }
 
     fun indexCheck(index:Int, arraySize:Int){
@@ -63,6 +63,51 @@ class DetailFragment : Fragment() {
             binding.btnNextDetail.isEnabled = true
         }
     }
+    fun observeDetailNewsViewModel(){
+        viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
+            var currentNews = it
+
+            binding.txtTitleDetail.text = currentNews.news.title
+            binding.txtAuthorDetail.text = currentNews.news.users_username
+
+            var pagesCount = currentNews.pages?.size
+            var currentPage = 0
+
+            binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
+
+            val picasso = Picasso.Builder(requireContext())
+            picasso.listener { picasso, uri, exception ->
+                exception.printStackTrace()
+            }
+            picasso.build().load(currentNews.news.image_url).into(binding.detailNewsImage, object:
+                Callback {
+                override fun onSuccess() {
+                    binding.detailNewsImage.visibility = View.VISIBLE
+                }
+
+                override fun onError(e: Exception?) {
+                    Log.e("picasso error", e.toString())
+                }
+            })
+
+            binding.btnPreviousDetail.isEnabled = false
+            binding.btnNextDetail.isEnabled = true
+
+
+
+            binding.btnNextDetail.setOnClickListener {
+                currentPage += 1
+                binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
+                indexCheck(currentPage, pagesCount!!)
+            }
+            binding.btnPreviousDetail.setOnClickListener {
+                currentPage -= 1
+                binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
+                indexCheck(currentPage, pagesCount!!)
+            }
+        })
+    }
+
 //    fun observeDetailNewsViewModel(){
 //        viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
 //            var currentNews = it

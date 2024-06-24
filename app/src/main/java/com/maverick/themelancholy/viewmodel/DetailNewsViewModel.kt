@@ -13,7 +13,10 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.maverick.themelancholy.model.News
+import com.maverick.themelancholy.model.NewsWithPages
 import com.maverick.themelancholy.model.Page
+import com.maverick.themelancholy.model.UserNewsCrossRef
+import com.maverick.themelancholy.model.UsersWithNews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,7 +26,8 @@ import kotlin.coroutines.CoroutineContext
 
 class DetailNewsViewModel(application: Application):AndroidViewModel(application), CoroutineScope {
     private val job = Job()
-    val newsDetailLD = MutableLiveData<News>()
+//    val newsDetailLD = MutableLiveData<News>()
+    val newsDetailLD = MutableLiveData<NewsWithPages>()
     val newsDetailLoadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
     val createStatusLD = MutableLiveData<Boolean>()
@@ -39,43 +43,18 @@ class DetailNewsViewModel(application: Application):AndroidViewModel(application
             createStatusLD.postValue(true)
         }
     }
-//    fun fetch(id:Int, username:String){
-//        newsDetailLoadErrorLD.value = false
-//        loadingLD.value = true
-//        queue = Volley.newRequestQueue((getApplication()))
-//        val url = "http://10.0.2.2/WebProjects/Hobby/getNewsById.php"
-//        val stringRequest = object : StringRequest(
-//            Request.Method.POST, url,
-//            Response.Listener
-//            {
-//                val obj = JSONObject(it)
-//                if (obj.getString("result") == "OK"){
-//                    val data = obj.getJSONArray("data")
-//                    val sType = object : TypeToken<List<News>>(){ }.type
-//                    val result = Gson().fromJson<List<News>>(data.toString(), sType) as ArrayList<News>
-//                    newsDetailLD.value = result[0]
-//                    loadingLD.value = false
-//                    Log.d("showNews", result[0].toString())
-//                }
-//
-//            },
-//            Response.ErrorListener{
-//                Log.d("showNews", it.toString())
-//                newsDetailLoadErrorLD.value = true
-//                loadingLD.value = false
-//            }
-//        )
-//        {
-//            override fun getParams(): MutableMap<String, String>? {
-//                val params = HashMap<String, String>()
-//                params["id"] = id.toString()
-//                params["username"] = username
-//                return params
-//            }
-//        }
-//        stringRequest.tag = TAG
-//        queue?.add(stringRequest)
-//    }
+    fun fetch(id:Int, username:String){
+        newsDetailLoadErrorLD.value = false
+        loadingLD.value = true
+        launch {
+            val db = buildDb(getApplication())
+
+            newsDetailLD.postValue(db.newsDao().GetNewsWithId(id))
+            var userHistory = UserNewsCrossRef(username, id)
+            db.userDao().InsertHistory(userHistory)
+            loadingLD.postValue(false)
+        }
+    }
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO

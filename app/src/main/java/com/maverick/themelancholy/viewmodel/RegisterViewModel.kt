@@ -1,6 +1,7 @@
 package com.maverick.themelancholy.viewmodel
 
 import android.app.Application
+import android.icu.util.Calendar
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -17,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import kotlin.coroutines.CoroutineContext
 
 class RegisterViewModel(application: Application): AndroidViewModel(application), CoroutineScope {
@@ -27,7 +29,12 @@ class RegisterViewModel(application: Application): AndroidViewModel(application)
 
     fun register(p_username:String, p_email:String, p_password:String, p_first_name:String, p_last_name:String, p_image_url:String){
         regStatusLD.value = false
-        var newUser = User(username = p_username, email = p_email, password = p_password, first_name = p_first_name, last_name = p_last_name, image_url = p_image_url)
+        //Get Date to string
+        val today = Calendar.getInstance()
+        var dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        var dateStr = dateFormat.format(today.time)
+
+        var newUser = User(username = p_username, email = p_email, password = p_password, first_name = p_first_name, last_name = p_last_name, created_at = dateStr, image_url = p_image_url)
 
         launch {
             val db = buildDb(getApplication())

@@ -1,12 +1,13 @@
 package com.maverick.themelancholy.model
 
 import DB_NAME
+import MIGRATION_1_2
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [User::class, News::class, Page::class], version = 1)
+@Database(entities = [User::class, News::class, Page::class, UserNewsCrossRef::class], version = 2)
 abstract class MelancholyDatabase:RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun newsDao(): NewsDao
@@ -21,7 +22,7 @@ abstract class MelancholyDatabase:RoomDatabase() {
                 context.applicationContext,
                 MelancholyDatabase::class.java,
                 DB_NAME
-            ).build()
+            ).addMigrations(MIGRATION_1_2).build()
 
         operator fun invoke(context: Context){
             if (instance != null){

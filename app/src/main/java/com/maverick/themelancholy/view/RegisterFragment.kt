@@ -1,5 +1,6 @@
 package com.maverick.themelancholy.view
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.navigation.Navigation
 import com.maverick.themelancholy.R
 import com.maverick.themelancholy.databinding.FragmentRegisterBinding
 import com.maverick.themelancholy.viewmodel.RegisterViewModel
+import java.text.SimpleDateFormat
 
 class RegisterFragment : Fragment() {
     private lateinit var viewModel: RegisterViewModel

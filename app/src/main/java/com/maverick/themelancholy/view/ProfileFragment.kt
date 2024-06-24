@@ -1,5 +1,6 @@
 package com.maverick.themelancholy.view
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -53,7 +54,7 @@ class ProfileFragment : Fragment() {
         binding.btnUpdateProfile.setOnClickListener {
             var newFirstName = currentUser.first_name
             var newLastName = currentUser.last_name
-            var newPassword = "NoUpdate"
+            var newPassword = currentUser.password
             var currentPassword = binding.txtCurrentPass.text.toString()
             if (binding.txtChangeFirstName.text.toString() != ""){
                 newFirstName = binding.txtChangeFirstName.text.toString()
@@ -62,14 +63,21 @@ class ProfileFragment : Fragment() {
                 newLastName = binding.txtChangeLastName.text.toString()
             }
             if (currentPassword != ""){
-                if (binding.txtNewPass.text.toString() != ""){
+                //Get Date to string
+                val today = Calendar.getInstance()
+                var dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                var dateStr = dateFormat.format(today.time)
+
+                if (binding.txtNewPass.text.toString() != ""){ //Jika Ganti Password
                     if (binding.txtRePass.text.toString() == binding.txtNewPass.text.toString()){
                         newPassword = binding.txtNewPass.text.toString()
-                        viewModel.update(newFirstName!!, newLastName!!, newPassword, currentPassword, currentUser.username.toString())
+                        var updatedUser = User(currentUser.username, currentUser.email, newPassword, newFirstName, newLastName, currentUser.created_at, dateStr, currentUser.image_url)
+                        viewModel.update(updatedUser)
                     }
                 }
-                else {
-                    viewModel.update(newFirstName!!, newLastName!!, newPassword, currentPassword, currentUser.username.toString())
+                else { //Jika TIDAK Ganti Password
+                    var updatedUser = User(currentUser.username, currentUser.email, newPassword, newFirstName, newLastName, currentUser.created_at, dateStr, currentUser.image_url)
+                    viewModel.update(updatedUser)
                 }
                 observeProfileViewModel()
                 binding.txtProfileDisplayName.text = "${newFirstName} ${newLastName}"
@@ -91,7 +99,7 @@ class ProfileFragment : Fragment() {
         viewModel.currentUser.observe(viewLifecycleOwner, Observer {
             binding.txtProfileDisplayName.text = "${it.first_name} ${it.last_name}"
             binding.txtProfileUsername.text = "${it.username}"
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd")
             val date: Date = inputFormat.parse(it.created_at)
             val outputFormat = SimpleDateFormat("dd MMMM yyyy")
             val formattedDate: String = outputFormat.format(date)
