@@ -1,256 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.ProfileFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="user"
+            type="com.maverick.themelancholy.model.User" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".view.ProfileFragment">
 
-        <ScrollView
-            android:id="@+id/scrollViewProfile"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cardImgContainer"
-                app:layout_constraintTop_toTopOf="@+id/cardImgContainer">
+            <ScrollView
+                android:id="@+id/scrollViewProfile"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <Button
-                    android:id="@+id/btnLogout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Log Out"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardUpdateForm" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardUpdateForm"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="32dp"
-                    app:cardCornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardProfileContainer">
+                    app:layout_constraintBottom_toTopOf="@+id/cardImgContainer"
+                    app:layout_constraintTop_toTopOf="@+id/cardImgContainer">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <Button
+                        android:id="@+id/btnLogout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Log Out"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardUpdateForm" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardUpdateForm"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardProfileContainer">
 
-                        <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="24dp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="Edit Profile"
-                            android:textAlignment="center"
-                            android:textSize="20sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/InputLayoutChangeFirstName"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="24dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView10">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtChangeFirstName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="First Name" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/InputLayoutChangeLastName"
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="24dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/InputLayoutChangeFirstName">
+                            android:layout_height="match_parent">
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtChangeLastName"
+                            <TextView
+                                android:id="@+id/textView10"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="24dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Edit Profile"
+                                android:textAlignment="center"
+                                android:textSize="20sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/InputLayoutChangeFirstName"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="24dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtChangeFirstName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="First Name" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/InputLayoutChangeLastName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Last Name" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="24dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/InputLayoutChangeFirstName">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/InputLayoutNewPass"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="24dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/InputLayoutChangeLastName">
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtChangeLastName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Last Name" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtNewPass"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/InputLayoutNewPass"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="New Password"
-                                android:password="true" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="24dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/InputLayoutChangeLastName">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/InputLayoutRePass"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="24dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/InputLayoutNewPass">
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtNewPass"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="New Password"
+                                    android:password="true" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtRePass"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/InputLayoutRePass"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Retype New Password"
-                                android:password="true" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="24dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/InputLayoutNewPass">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/InputLayoutCurrentPass"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="24dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/InputLayoutRePass">
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtRePass"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Retype New Password"
+                                    android:password="true" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtCurrentPass"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/InputLayoutCurrentPass"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Current Password"
-                                android:password="true" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="24dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/InputLayoutRePass">
 
-                        <Button
-                            android:id="@+id/btnUpdateProfile"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="24dp"
-                            android:layout_marginBottom="16dp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="Update"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/InputLayoutCurrentPass" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtCurrentPass"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Current Password"
+                                    android:password="true" />
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardProfileContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="32dp"
-                    app:cardCornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                            <Button
+                                android:id="@+id/btnUpdateProfile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="24dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Update"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/InputLayoutCurrentPass" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardProfileContainer"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
-                            android:id="@+id/txtProfileDisplayName"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="24dp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="First Last"
-                            android:textAlignment="center"
-                            android:textSize="20sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/imgProfileUser" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/txtProfileUsername"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="24dp"
-                            android:fontFamily="@font/roboto"
-                            android:text="Username"
-                            android:textAlignment="center"
-                            android:textSize="16sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txtProfileDisplayName" />
+                            <TextView
+                                android:id="@+id/txtProfileDisplayName"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="24dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="First Last"
+                                android:textAlignment="center"
+                                android:textSize="20sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/imgProfileUser" />
 
-                        <TextView
-                            android:id="@+id/txtProfileDateJoined"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="24dp"
-                            android:layout_marginBottom="16dp"
-                            android:fontFamily="@font/roboto"
-                            android:text="Date Joined: 11 April 2024"
-                            android:textAlignment="center"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txtProfileUsername" />
+                            <TextView
+                                android:id="@+id/txtProfileUsername"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="24dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@{user.username}"
+                                android:textAlignment="center"
+                                android:textSize="16sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/txtProfileDisplayName" />
 
-                        <ImageView
-                            android:id="@+id/imgProfileUser"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
-                            android:layout_marginTop="16dp"
-                            android:src="@drawable/baseline_account_circle_24"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:id="@+id/txtProfileDateJoined"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="24dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="Date Joined: 11 April 2024"
+                                android:textAlignment="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/txtProfileUsername" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+                            <ImageView
+                                android:id="@+id/imgProfileUser"
+                                android:layout_width="130dp"
+                                android:layout_height="130dp"
+                                android:layout_marginTop="16dp"
+                                android:src="@drawable/baseline_account_circle_24"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

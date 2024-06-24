@@ -26,6 +26,8 @@ class NewsAdapter(val newsList:ArrayList<News>, val fragment: Fragment):Recycler
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+        holder.binding.news = newsList[position]
+
         val picasso = Picasso.Builder(holder.itemView.context)
         picasso.listener { picasso, uri, exception ->
             exception.printStackTrace()
@@ -40,9 +42,9 @@ class NewsAdapter(val newsList:ArrayList<News>, val fragment: Fragment):Recycler
             }
         })
 
-        holder.binding.txtTitle.text = newsList[position].title
-        holder.binding.txtAuthor.text = newsList[position].users_username
-        holder.binding.txtDescription.text = newsList[position].description
+//        holder.binding.txtTitle.text = newsList[position].title
+//        holder.binding.txtAuthor.text = newsList[position].users_username
+//        holder.binding.txtDescription.text = newsList[position].description
         holder.binding.btnRead.setOnClickListener {
             if (fragment is HomeFragment){
                 val action = newsList[position].id?.let { it1 ->

@@ -67,13 +67,17 @@ class DetailFragment : Fragment() {
         viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
             var currentNews = it
 
-            binding.txtTitleDetail.text = currentNews.news.title
-            binding.txtAuthorDetail.text = currentNews.news.users_username
+            binding.newswithpages = currentNews
+
+//            binding.txtTitleDetail.text = currentNews.news.title
+//            binding.txtAuthorDetail.text = currentNews.news.users_username
 
             var pagesCount = currentNews.pages?.size
             var currentPage = 0
 
-            binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
+            binding.page = currentNews.pages.get(currentPage)
+
+            //binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
 
             val picasso = Picasso.Builder(requireContext())
             picasso.listener { picasso, uri, exception ->
@@ -97,12 +101,14 @@ class DetailFragment : Fragment() {
 
             binding.btnNextDetail.setOnClickListener {
                 currentPage += 1
-                binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
+                binding.page = currentNews.pages.get(currentPage)
+//                binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
                 indexCheck(currentPage, pagesCount!!)
             }
             binding.btnPreviousDetail.setOnClickListener {
                 currentPage -= 1
-                binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
+                binding.page = currentNews.pages.get(currentPage)
+//                binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
                 indexCheck(currentPage, pagesCount!!)
             }
         })
