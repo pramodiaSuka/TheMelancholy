@@ -16,7 +16,7 @@ import com.maverick.themelancholy.viewmodel.LoginViewModel
 import com.maverick.themelancholy.viewmodel.RegisterViewModel
 import com.maverick.themelancholy.viewmodel.SharedViewModel
 
-class LoginFragment : Fragment() {
+class LoginFragment : Fragment(), UserClickListener, UserRegisterClickListener {
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding:FragmentLoginBinding
     private lateinit var sharedViewModel:SharedViewModel
@@ -31,20 +31,27 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnSignUp.setOnClickListener {
-            val action = LoginFragmentDirections.actionRegisterFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
+        binding.user = User()
+        binding.listener = this
+        binding.registerListener = this
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        binding.btnLogin.setOnClickListener {
-            var reg_username = binding.txtUsername.text.toString()
-            var reg_password = binding.txtPassword.text.toString()
-            viewModel.login(reg_username, reg_password)
-        }
 
         observeLoginViewModel()
+
+//        binding.btnSignUp.setOnClickListener {
+//            val action = LoginFragmentDirections.actionRegisterFragment()
+//            Navigation.findNavController(it).navigate(action)
+//        }
+
+//        binding.btnLogin.setOnClickListener {
+//            var reg_username = binding.txtUsername.text.toString()
+//            var reg_password = binding.txtPassword.text.toString()
+//            viewModel.login(reg_username, reg_password)
+//        }
+
+
 
     }
 
@@ -52,7 +59,6 @@ class LoginFragment : Fragment() {
         viewModel.currentUser.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 sharedViewModel.setCurrentUsername(it.username!!)
-                //Toast.makeText(requireContext(), "Login Success!", Toast.LENGTH_SHORT).show()
                 val action = LoginFragmentDirections.actionItemHome()
                 Navigation.findNavController(requireView()).navigate(action)
             }
@@ -61,6 +67,17 @@ class LoginFragment : Fragment() {
             }
 
         })
+    }
+
+    override fun onUserClick(v: View) {
+        var reg_username = binding.user!!.username
+        var reg_password = binding.user!!.password!!
+        viewModel.login(reg_username, reg_password)
+    }
+
+    override fun onUserRegisterClick(v: View) {
+        val action = LoginFragmentDirections.actionRegisterFragment()
+        Navigation.findNavController(v).navigate(action)
     }
 
 }

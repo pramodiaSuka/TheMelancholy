@@ -13,7 +13,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-class NewsAdapter(val newsList:ArrayList<News>, val fragment: Fragment):RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(val newsList:ArrayList<News>, val fragment: Fragment):RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(), NewsClickListener {
     class NewsViewHolder(var binding:NewsListItemBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -27,51 +27,76 @@ class NewsAdapter(val newsList:ArrayList<News>, val fragment: Fragment):Recycler
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.binding.news = newsList[position]
+        holder.binding.listener = this
 
-        val picasso = Picasso.Builder(holder.itemView.context)
-        picasso.listener { picasso, uri, exception ->
-            exception.printStackTrace()
-        }
-        picasso.build().load(newsList[position].image_url).into(holder.binding.cardImageNews, object:Callback{
-            override fun onSuccess() {
-                holder.binding.cardImageNews.visibility = View.VISIBLE
-            }
-
-            override fun onError(e: Exception?) {
-                Log.e("picasso error", e.toString())
-            }
-        })
+//        val picasso = Picasso.Builder(holder.itemView.context)
+//        picasso.listener { picasso, uri, exception ->
+//            exception.printStackTrace()
+//        }
+//        picasso.build().load(newsList[position].image_url).into(holder.binding.cardImageNews, object:Callback{
+//            override fun onSuccess() {
+//                holder.binding.cardImageNews.visibility = View.VISIBLE
+//            }
+//
+//            override fun onError(e: Exception?) {
+//                Log.e("picasso error", e.toString())
+//            }
+//        })
 
 //        holder.binding.txtTitle.text = newsList[position].title
 //        holder.binding.txtAuthor.text = newsList[position].users_username
 //        holder.binding.txtDescription.text = newsList[position].description
-        holder.binding.btnRead.setOnClickListener {
-            if (fragment is HomeFragment){
-                val action = newsList[position].id?.let { it1 ->
-                    HomeFragmentDirections.actionDetailFragment(
-                        it1
-                    )
-                }
-                if (action != null) {
-                    Navigation.findNavController(it).navigate(action)
-                }
-            }
-            else if (fragment is HistoryFragment){
-                val action = newsList[position].id?.let { it1 ->
-                    HistoryFragmentDirections.actionDetailFragmentFromHistory(
-                        it1
-                    )
-                }
-                if (action != null) {
-                    Navigation.findNavController(it).navigate(action)
-                }
-            }
-        }
+//        holder.binding.btnRead.setOnClickListener {
+//            if (fragment is HomeFragment){
+//                val action = newsList[position].id?.let { it1 ->
+//                    HomeFragmentDirections.actionDetailFragment(
+//                        it1
+//                    )
+//                }
+//                if (action != null) {
+//                    Navigation.findNavController(it).navigate(action)
+//                }
+//            }
+//            else if (fragment is HistoryFragment){
+//                val action = newsList[position].id?.let { it1 ->
+//                    HistoryFragmentDirections.actionDetailFragmentFromHistory(
+//                        it1
+//                    )
+//                }
+//                if (action != null) {
+//                    Navigation.findNavController(it).navigate(action)
+//                }
+//            }
+//        }
     }
 
     fun updateNewsList(newNewsList: ArrayList<News>){
         newsList.clear()
         newsList.addAll(newNewsList)
         notifyDataSetChanged()
+    }
+
+    override fun onNewsClick(v: View) {
+        val news_id = v.tag.toString().toInt()
+        if (fragment is HomeFragment){
+            val action = news_id?.let { it1 ->
+                HomeFragmentDirections.actionDetailFragment(
+                    it1
+                )
+            }
+            if (action != null) {
+                Navigation.findNavController(v).navigate(action)
+            }
+        }
+        else if (fragment is HistoryFragment){
+            val action = news_id?.let { it1 ->
+                HistoryFragmentDirections.actionDetailFragmentFromHistory(
+                    it1
+                )
+            }
+            if (action != null) {
+                Navigation.findNavController(v).navigate(action)
+            }
+        }
     }
 }

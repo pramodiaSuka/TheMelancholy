@@ -15,7 +15,7 @@ import com.maverick.themelancholy.databinding.FragmentHomeBinding
 import com.maverick.themelancholy.viewmodel.ListNewsViewModel
 import com.maverick.themelancholy.viewmodel.SharedViewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), NewsClickListener {
     private lateinit var binding:FragmentHomeBinding
     private lateinit var viewModel:ListNewsViewModel
     private lateinit var sharedViewModel:SharedViewModel
@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.listener = this
 
         viewModel = ViewModelProvider(this).get(ListNewsViewModel::class.java)
         viewModel.refresh()
@@ -49,10 +50,10 @@ class HomeFragment : Fragment() {
             binding.refreshLayout.isRefreshing = false
         }
 
-        binding.btnFab.setOnClickListener{
-            val action = HomeFragmentDirections.actionCreateNewsFragment()
-            Navigation.findNavController(requireView()).navigate(action)
-        }
+//        binding.btnFab.setOnClickListener{
+//            val action = HomeFragmentDirections.actionCreateNewsFragment()
+//            Navigation.findNavController(requireView()).navigate(action)
+//        }
 
     }
 
@@ -80,5 +81,10 @@ class HomeFragment : Fragment() {
                 binding.progressLoad.visibility = View.GONE
             }
         })
+    }
+
+    override fun onNewsClick(v: View) {
+        val action = HomeFragmentDirections.actionCreateNewsFragment()
+        Navigation.findNavController(v).navigate(action)
     }
 }

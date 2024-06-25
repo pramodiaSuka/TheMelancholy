@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso
 import java.lang.Exception
 import java.text.SimpleDateFormat
 
-class CreateNewsFragment : Fragment() {
+class CreateNewsFragment : Fragment(), NewsClickListener {
     private lateinit var binding: FragmentCreateNewsBinding
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var viewModel: DetailNewsViewModel
@@ -37,29 +37,32 @@ class CreateNewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.news = News("","","","","")
+        binding.listener = this
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         viewModel = ViewModelProvider(this).get(DetailNewsViewModel::class.java)
-
-        binding.btnAddNews.setOnClickListener {
-            sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer { currentUsernameLD ->
-                //Get Date to string
-                val today = Calendar.getInstance()
-                var dateFormat = SimpleDateFormat("yyyy-MM-dd")
-                var dateStr = dateFormat.format(today.time)
-
-
-                var news = News(binding.txtTitleCreate.text.toString(), binding.txtDescriptionCreate.text.toString(), binding.txtImageUrl.text.toString(), dateStr, currentUsernameLD)
-                var pagesString = binding.txtContentCreate.text.toString().split("\n")
-                var pages:ArrayList<Page> = arrayListOf()
-                for (i in 0 until pagesString.size){
-                    var newPage = Page(0, pagesString[i])
-                    pages.add(newPage)
-                }
-                viewModel.createNews(news, pages)
-                //Toast.makeText(requireContext(), "${pages.size} ${dateStr} $currentUsernameLD", Toast.LENGTH_SHORT).show()
-            })
-        }
         observeDetailNewsViewModel()
+
+//        binding.btnAddNews.setOnClickListener {
+//            sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer { currentUsernameLD ->
+//                //Get Date to string
+//                val today = Calendar.getInstance()
+//                var dateFormat = SimpleDateFormat("yyyy-MM-dd")
+//                var dateStr = dateFormat.format(today.time)
+//
+//
+//                var news = News(binding.txtTitleCreate.text.toString(), binding.txtDescriptionCreate.text.toString(), binding.txtImageUrl.text.toString(), dateStr, currentUsernameLD)
+//                var pagesString = binding.txtContentCreate.text.toString().split("\n")
+//                var pages:ArrayList<Page> = arrayListOf()
+//                for (i in 0 until pagesString.size){
+//                    var newPage = Page(0, pagesString[i])
+//                    pages.add(newPage)
+//                }
+//                viewModel.createNews(news, pages)
+//                //Toast.makeText(requireContext(), "${pages.size} ${dateStr} $currentUsernameLD", Toast.LENGTH_SHORT).show()
+//            })
+//        }
+
     }
 
 
@@ -70,6 +73,25 @@ class CreateNewsFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "Create News Failed!", Toast.LENGTH_SHORT).show()
             }
+        })
+    }
+
+    override fun onNewsClick(v: View) {
+        sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer { currentUsernameLD ->
+            //Get Date to string
+            val today = Calendar.getInstance()
+            var dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            var dateStr = dateFormat.format(today.time)
+
+
+            var news = News(binding.news!!.title, binding.news!!.description, binding.news!!.image_url, dateStr, currentUsernameLD)
+            var pagesString = binding.txtContentCreate.text.toString().split("\n")
+            var pages:ArrayList<Page> = arrayListOf()
+            for (i in 0 until pagesString.size){
+                var newPage = Page(0, pagesString[i])
+                pages.add(newPage)
+            }
+            viewModel.createNews(news, pages)
         })
     }
 }

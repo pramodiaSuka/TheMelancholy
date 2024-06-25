@@ -7,6 +7,9 @@
     <variable
         name="news"
         type="com.maverick.themelancholy.model.News" />
+        <variable
+            name="listener"
+            type="com.maverick.themelancholy.view.NewsClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,6 +40,7 @@
                     android:layout_width="0dp"
                     android:layout_height="300dp"
                     android:scaleType="centerCrop"
+                    android:imageUrl="@{news.image_url}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -92,6 +96,8 @@
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Read"
+                    android:tag="@{news.id}"
+                    android:onClick="@{listener::onNewsClick}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtDescription" />

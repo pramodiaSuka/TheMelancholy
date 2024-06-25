@@ -19,11 +19,12 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(), NavigationClickListener {
     private lateinit var binding:FragmentDetailBinding
     private lateinit var viewModel:DetailNewsViewModel
     private lateinit var sharedViewModel:SharedViewModel
     private var newsId = 0
+    var currentPage = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +36,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.navigationListener = this
         if (arguments != null){
             newsId = DetailFragmentArgs.fromBundle(requireArguments()).newsId
         }
@@ -65,53 +66,45 @@ class DetailFragment : Fragment() {
     }
     fun observeDetailNewsViewModel(){
         viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
-            var currentNews = it
-
-            binding.newswithpages = currentNews
-
-//            binding.txtTitleDetail.text = currentNews.news.title
-//            binding.txtAuthorDetail.text = currentNews.news.users_username
-
-            var pagesCount = currentNews.pages?.size
-            var currentPage = 0
-
-            binding.page = currentNews.pages.get(currentPage)
-
-            //binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
-
-            val picasso = Picasso.Builder(requireContext())
-            picasso.listener { picasso, uri, exception ->
-                exception.printStackTrace()
-            }
-            picasso.build().load(currentNews.news.image_url).into(binding.detailNewsImage, object:
-                Callback {
-                override fun onSuccess() {
-                    binding.detailNewsImage.visibility = View.VISIBLE
-                }
-
-                override fun onError(e: Exception?) {
-                    Log.e("picasso error", e.toString())
-                }
-            })
-
+            binding.newswithpages = it
+            currentPage = 0
+            binding.page = binding.newswithpages!!.pages.get(currentPage)
             binding.btnPreviousDetail.isEnabled = false
             binding.btnNextDetail.isEnabled = true
 
+//            var pagesCount = binding.newswithpages!!.pages?.size
+//            var currentPage = 0
 
 
-            binding.btnNextDetail.setOnClickListener {
-                currentPage += 1
-                binding.page = currentNews.pages.get(currentPage)
-//                binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
-                indexCheck(currentPage, pagesCount!!)
-            }
-            binding.btnPreviousDetail.setOnClickListener {
-                currentPage -= 1
-                binding.page = currentNews.pages.get(currentPage)
-//                binding.txtContentDetail.text = currentNews.pages?.get(currentPage)?.content.toString()
-                indexCheck(currentPage, pagesCount!!)
-            }
+
+//            binding.btnPreviousDetail.isEnabled = false
+//            binding.btnNextDetail.isEnabled = true
+
+//            binding.btnNextDetail.setOnClickListener {
+//                currentPage += 1
+//                binding.page = binding.newswithpages!!.pages.get(currentPage)
+//                indexCheck(currentPage, pagesCount!!)
+//            }
+//            binding.btnPreviousDetail.setOnClickListener {
+//                currentPage -= 1
+//                binding.page = binding.newswithpages!!.pages.get(currentPage)
+//                indexCheck(currentPage, pagesCount!!)
+//            }
         })
+    }
+
+    override fun onNavigationClick(v: View) {
+        var pagesCount = binding.newswithpages!!.pages?.size
+        if (v.tag.toString() == "next"){
+            currentPage += 1
+            binding.page = binding.newswithpages!!.pages.get(currentPage)
+            indexCheck(currentPage, pagesCount!!)
+        }
+        else if (v.tag.toString() == "previous"){
+            currentPage -= 1
+            binding.page = binding.newswithpages!!.pages.get(currentPage)
+            indexCheck(currentPage, pagesCount!!)
+        }
     }
 
 //    fun observeDetailNewsViewModel(){
