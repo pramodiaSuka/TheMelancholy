@@ -20,9 +20,9 @@ import com.squareup.picasso.Picasso
 import java.lang.Exception
 
 class DetailFragment : Fragment(), NavigationClickListener {
-    private lateinit var binding:FragmentDetailBinding
-    private lateinit var viewModel:DetailNewsViewModel
-    private lateinit var sharedViewModel:SharedViewModel
+    private lateinit var binding: FragmentDetailBinding
+    private lateinit var viewModel: DetailNewsViewModel
+    private lateinit var sharedViewModel: SharedViewModel
     private var newsId = 0
     var currentPage = 0
     override fun onCreateView(
@@ -37,44 +37,44 @@ class DetailFragment : Fragment(), NavigationClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.navigationListener = this
-        if (arguments != null){
+        if (arguments != null) {
             newsId = DetailFragmentArgs.fromBundle(requireArguments()).newsId
         }
         viewModel = ViewModelProvider(this).get(DetailNewsViewModel::class.java)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        sharedViewModel.currentUsernameLD.observe(viewLifecycleOwner, Observer { currentUsernameLD ->
-            viewModel.fetch(newsId, currentUsernameLD)
+        sharedViewModel.currentUsernameLD.observe(
+            viewLifecycleOwner,
+            Observer { currentUsernameLD ->
+                viewModel.fetch(newsId, currentUsernameLD)
 
-        })
+            })
 
         observeDetailNewsViewModel()
     }
 
-    fun indexCheck(index:Int, arraySize:Int){
-        if (index == 0){
+    fun indexCheck(currentPage: Int, pagesCount: Int) {
+        if (pagesCount <= 1) {
+            binding.btnNextDetail.isEnabled = false
+            binding.btnPreviousDetail.isEnabled = false
+        } else if (currentPage == 0) {
             binding.btnPreviousDetail.isEnabled = false
             binding.btnNextDetail.isEnabled = true
-        }
-        else if (index == (arraySize - 1)) {
-            binding.btnNextDetail.isEnabled = false
+        } else if (currentPage == (pagesCount - 1)) {
             binding.btnPreviousDetail.isEnabled = true
-        }
-        else {
+            binding.btnNextDetail.isEnabled = false
+        } else {
             binding.btnPreviousDetail.isEnabled = true
             binding.btnNextDetail.isEnabled = true
         }
     }
-    fun observeDetailNewsViewModel(){
+    fun observeDetailNewsViewModel() {
         viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
             binding.newswithpages = it
             currentPage = 0
             binding.page = binding.newswithpages!!.pages.get(currentPage)
-            binding.btnPreviousDetail.isEnabled = false
-            binding.btnNextDetail.isEnabled = true
-
+            indexCheck(currentPage, binding.newswithpages!!.pages.size)
 //            var pagesCount = binding.newswithpages!!.pages?.size
 //            var currentPage = 0
-
 
 
 //            binding.btnPreviousDetail.isEnabled = false
@@ -94,19 +94,26 @@ class DetailFragment : Fragment(), NavigationClickListener {
     }
 
     override fun onNavigationClick(v: View) {
-        var pagesCount = binding.newswithpages!!.pages?.size
-        if (v.tag.toString() == "next"){
-            currentPage += 1
-            binding.page = binding.newswithpages!!.pages.get(currentPage)
-            indexCheck(currentPage, pagesCount!!)
-        }
-        else if (v.tag.toString() == "previous"){
-            currentPage -= 1
-            binding.page = binding.newswithpages!!.pages.get(currentPage)
-            indexCheck(currentPage, pagesCount!!)
+            var pagesCount = binding.newswithpages!!.pages?.size?:0
+            if (v.tag.toString() == "next"){
+                currentPage += 1
+                binding.page = binding.newswithpages!!.pages.get(currentPage)
+                indexCheck(currentPage, pagesCount!!)
+            }
+            else if (v.tag.toString() == "previous"){
+                currentPage -= 1
+                binding.page = binding.newswithpages!!.pages.get(currentPage)
+                indexCheck(currentPage, pagesCount!!)
+            }
+
+        if (pagesCount <= 1) {
+            indexCheck(currentPage, 1)
+        } else {
+            indexCheck(currentPage, pagesCount)
         }
     }
 
+}
 //    fun observeDetailNewsViewModel(){
 //        viewModel.newsDetailLD.observe(viewLifecycleOwner, Observer {
 //            var currentNews = it
@@ -151,4 +158,3 @@ class DetailFragment : Fragment(), NavigationClickListener {
 //            }
 //        })
 //    }
-}

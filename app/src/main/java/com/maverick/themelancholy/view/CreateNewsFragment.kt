@@ -70,8 +70,6 @@ class CreateNewsFragment : Fragment(), NewsClickListener {
         viewModel.createStatusLD.observe(viewLifecycleOwner, Observer{
             if (it == true){
                 Toast.makeText(requireContext(), "News Created Successfully", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Create News Failed!", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -82,8 +80,9 @@ class CreateNewsFragment : Fragment(), NewsClickListener {
             val today = Calendar.getInstance()
             var dateFormat = SimpleDateFormat("yyyy-MM-dd")
             var dateStr = dateFormat.format(today.time)
-
-
+            if (binding.news!!.title.isNullOrEmpty() || binding.news!!.description.isNullOrEmpty() || binding.news!!.image_url.isNullOrEmpty() || binding.txtContentCreate.text.toString().isNullOrEmpty())
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            else{
             var news = News(binding.news!!.title, binding.news!!.description, binding.news!!.image_url, dateStr, currentUsernameLD)
             var pagesString = binding.txtContentCreate.text.toString().split("\n")
             var pages:ArrayList<Page> = arrayListOf()
@@ -92,6 +91,7 @@ class CreateNewsFragment : Fragment(), NewsClickListener {
                 pages.add(newPage)
             }
             viewModel.createNews(news, pages)
+            }
         })
     }
 }
