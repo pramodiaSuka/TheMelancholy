@@ -66,8 +66,6 @@ class RegisterFragment : Fragment(), UserClickListener, UserRegisterClickListene
         viewModel.regStatusLD.observe(viewLifecycleOwner, Observer {
             if (it == true){
                 Toast.makeText(requireContext(), "Account Created Successfully", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Register Failed!", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -83,10 +81,12 @@ class RegisterFragment : Fragment(), UserClickListener, UserRegisterClickListene
         var reg_first_name = binding.user!!.first_name!!
         var reg_last_name = binding.user!!.last_name!!
         var reg_image_url = binding.user!!.image_url!!
-        var reg_password = binding.user!!.password
+        var reg_password = binding.user!!.password!!
         var reg_repassword = binding.txtRePassword.text.toString()
-
-        if (reg_password == reg_repassword){
+        if (reg_username.isEmpty() || reg_email.isEmpty() || reg_first_name.isEmpty() || reg_last_name.isEmpty() || reg_image_url.isEmpty() || reg_password.isEmpty()|| reg_repassword.isEmpty()) {
+            Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT)
+                .show()
+        } else if (reg_password == reg_repassword){
             viewModel.register(reg_username, reg_email, reg_password, reg_first_name, reg_last_name, reg_image_url)
         }
         else {
